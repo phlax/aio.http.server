@@ -6,5 +6,8 @@ install:
  - pip install -r travis/requirements.txt
  - pip install .
 
+before_script:
+- wget https://raw.githubusercontent.com/phlax/aio.http.server/master/travis/aio.conf
+
 script: aio test aio.http.server
 
