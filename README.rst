@@ -30,7 +30,7 @@ Example configuration for a hello world server
 .. code:: ini
 
 	  [server/test]
-	  factory = aio.http.server.server
+	  factory = aio.http.server.factory
 	  protocol = my.example.protocol_factory
 	  port = 8080
 
@@ -45,9 +45,7 @@ And the corresponding protocol_factory
 	  @asyncio.coroutine
 	  def protocol_factory(name):
 	      loop = asyncio.get_event_loop()
-
 	      webapp = aiohttp.web.Application(loop=loop)
-	      webapp['name'] = name
 
 	      @asyncio.coroutine
 	      def handle_hello_world(webapp):
