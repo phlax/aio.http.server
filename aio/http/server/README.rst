@@ -26,11 +26,11 @@ By default the http server will respond with a 404 as there are no routes set up
   >>> import aiohttp
   >>> from aio.app.runner import runner
   >>> from aio.testing import aiofuturetest
-  
-  >>> def run_http_server():
+
+  >>> @aiofuturetest(sleep=1)
+  ... def run_http_server():
   ...     yield from runner(['run'], config_string=config)
   ... 
-  ...     @asyncio.coroutine
   ...     def call_http_server():
   ...         result = yield from (
   ...             yield from aiohttp.request(
@@ -39,7 +39,7 @@ By default the http server will respond with a 404 as there are no routes set up
   ... 
   ...     return call_http_server
 
-  >>> aiofuturetest(run_http_server, sleep=1)()
+  >>> run_http_server()
   b'404: Not Found'
 
 The server object is accessible from the aio.app.servers[{name}] var
@@ -71,23 +71,24 @@ The function should be a coroutine and is called with the name of the server
   ... port = 7070
   ... """  
 
-  >>> def http_protocol_factory(name):
+  >>> @asyncio.coroutine
+  ... def http_protocol_factory(name):
   ...     loop = asyncio.get_event_loop()
-  ...     webapp = aiohttp.web.Application(loop=loop)
-  ...     webapp['name'] = name
+  ...     http_app = aiohttp.web.Application(loop=loop)
+  ...     http_app['name'] = name
   ... 
-  ...     def handle_hello_world(webapp):
+  ...     @asyncio.coroutine  
+  ...     def handle_hello_world(http_app):
   ...         return aiohttp.web.Response(body=b"Hello, world")
   ... 
-  ...     webapp.router.add_route("GET", "/", asyncio.coroutine(handle_hello_world))
-  ...     return webapp.make_handler()
+  ...     http_app.router.add_route("GET", "/", handle_hello_world)
+  ...     return http_app.make_handler()
 
-  >>> aio.http.server.tests._example_http_protocol = asyncio.coroutine(http_protocol_factory)
+  >>> aio.http.server.tests._example_http_protocol = http_protocol_factory
   
   >>> def run_http_server():
   ...     yield from runner(['run'], config_string=config_with_protocol)
   ... 
-  ...     @asyncio.coroutine
   ...     def call_http_server():
   ...         result = yield from (
   ...             yield from aiohttp.request(
