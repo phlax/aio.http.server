@@ -25,9 +25,9 @@ By default the http server will respond with a 404 as there are no routes set up
   >>> import asyncio
   >>> import aiohttp
   >>> from aio.app.runner import runner
-  >>> from aio.testing import aiofuturetest
+  >>> import aio.testing
 
-  >>> @aiofuturetest(sleep=1)
+  >>> @aio.testing.run_forever(sleep=1)
   ... def run_http_server():
   ...     yield from runner(['run'], config_string=config)
   ... 
@@ -85,8 +85,9 @@ The function should be a coroutine and is called with the name of the server
   ...     return http_app.make_handler()
 
   >>> aio.http.server.tests._example_http_protocol = http_protocol_factory
-  
-  >>> def run_http_server():
+
+  >>> @aio.testing.run_forever(sleep=1)
+  ... def run_http_server():
   ...     yield from runner(['run'], config_string=config_with_protocol)
   ... 
   ...     def call_http_server():
@@ -98,6 +99,5 @@ The function should be a coroutine and is called with the name of the server
   ... 
   ...     return call_http_server
   
-
-  >>> aiofuturetest(run_http_server, sleep=1)()  
+  >>> run_http_server()
   b'Hello, world'

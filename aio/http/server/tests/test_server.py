@@ -2,7 +2,7 @@ import asyncio
 
 import aiohttp
 
-from aio.testing import aiofuturetest
+import aio.testing
 from aio.app.testing import AioAppTestCase
 import aio.app
 from aio.app.runner import runner
@@ -38,7 +38,7 @@ def test_protocol_factory(name):
 
 class HttpServerTestCase(AioAppTestCase):
 
-    @aiofuturetest(sleep=2)
+    @aio.testing.run_forever(sleep=2)
     def test_http_server(self):
 
         yield from runner(
@@ -59,7 +59,7 @@ class HttpServerTestCase(AioAppTestCase):
 
         return _test
 
-    @aiofuturetest(sleep=2)
+    @aio.testing.run_forever(sleep=2)
     def test_http_server_protocol(self):
 
         yield from runner(
