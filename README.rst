@@ -25,21 +25,23 @@ Install with:
 	  pip install aio.http.server
 
 
-Configuration
--------------
+Quick start - Hello world http server
+-------------------------------------
 
-Example configuration for a hello world server
+Create a web server that says hello
+
+Save the following into a file "hello.conf"
 
 .. code:: ini
-
-	  [server/test]
+	  
+	  [server/my_server]
 	  factory = aio.http.server.factory
-	  protocol = my.example.protocol_factory
 	  port = 8080
+	  protocol = my_example.protocol_factory	  
 
-
-And the corresponding protocol_factory
-
+	  
+And save the following into a file named my_example.py
+	  
 .. code:: python
 
 	  import asyncio
@@ -56,13 +58,12 @@ And the corresponding protocol_factory
 
 	      webapp.router.add_route("GET", "/", handle_hello_world)
 	      return webapp.make_handler()
+	      	     	      
 
-
-Running
--------
-
-Run with the aio command
+Run with the aio run command
 
 .. code:: bash
 
-	  aio run
+	  aio run -c hello.conf
+
+	  
