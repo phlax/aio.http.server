@@ -16,14 +16,14 @@ port = 7070
 HTTP_PROTOCOL_CONFIG = """
 [server/test]
 factory = aio.http.server.factory
-protocol = aio.http.server.tests.test_server.test_protocol_factory
+protocol = aio.http.server.tests.test_server.test_protocol
 address = 0.0.0.0
 port = 7070
 """
 
 
-@asyncio.coroutine
-def test_protocol_factory(name):
+@aio.app.server.protocol
+def test_protocol(name):
     loop = asyncio.get_event_loop()
     webapp = aiohttp.web.Application(loop=loop)
     webapp['name'] = name
@@ -44,7 +44,6 @@ class HttpServerTestCase(AioAppTestCase):
         yield from runner(
             ['run'], config_string=HTTP_CONFIG)
 
-        @asyncio.coroutine
         def _test():
             self.assertTrue(
                 "test" in aio.app.servers)
@@ -66,7 +65,6 @@ class HttpServerTestCase(AioAppTestCase):
             ['run'],
             config_string=HTTP_PROTOCOL_CONFIG)
 
-        @asyncio.coroutine
         def _test_cb():
             self.assertTrue(
                 "test" in aio.app.servers)

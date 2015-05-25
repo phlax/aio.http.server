@@ -71,8 +71,10 @@ The function should be a coroutine and is called with the name of the server
 ... port = 7070
 ... """  
 
->>> @asyncio.coroutine
-... def http_protocol_factory(name):
+We need to decorate the protocol with aio.app.server.protocol
+
+>>> @aio.app.server.protocol
+... def http_protocol(name):
 ...     loop = asyncio.get_event_loop()
 ...     http_app = aiohttp.web.Application(loop=loop)
 ...     http_app['name'] = name
@@ -84,7 +86,7 @@ The function should be a coroutine and is called with the name of the server
 ...     http_app.router.add_route("GET", "/", handle_hello_world)
 ...     return http_app.make_handler()
 
->>> aio.http.server.tests._example_http_protocol = http_protocol_factory
+>>> aio.http.server.tests._example_http_protocol = http_protocol
 
 >>> @aio.testing.run_forever(sleep=1)
 ... def run_http_server():
