@@ -37,7 +37,7 @@ Save the following into a file "hello.conf"
 	  [server/my_server]
 	  factory = aio.http.server.factory
 	  port = 8080
-	  protocol = my_example.protocol_factory	  
+	  protocol = my_example.protocol
 
 	  
 And save the following into a file named my_example.py
@@ -47,8 +47,8 @@ And save the following into a file named my_example.py
 	  import asyncio
 	  import aiohttp
 
-	  @asyncio.coroutine
-	  def protocol_factory(name):
+	  @aio.app.server.protocol
+	  def protocol(name):
 	      loop = asyncio.get_event_loop()
 	      webapp = aiohttp.web.Application(loop=loop)
 
