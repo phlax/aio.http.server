@@ -47,6 +47,8 @@ And save the following into a file named my_example.py
 	  import asyncio
 	  import aiohttp
 
+	  import aio.app
+
 	  @aio.app.server.protocol
 	  def protocol(name):
 	      loop = asyncio.get_event_loop()
