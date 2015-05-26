@@ -41,7 +41,7 @@ class HttpServerTestCase(AioAppTestCase):
     @aio.testing.run_forever(sleep=2)
     def test_http_server(self):
 
-        yield from runner(
+        runner(
             ['run'], config_string=HTTP_CONFIG)
 
         def _test():
@@ -61,7 +61,7 @@ class HttpServerTestCase(AioAppTestCase):
     @aio.testing.run_forever(sleep=2)
     def test_http_server_protocol(self):
 
-        yield from runner(
+        runner(
             ['run'],
             config_string=HTTP_PROTOCOL_CONFIG)
 

@@ -29,7 +29,7 @@ By default the http server will respond with a 404 as there are no routes set up
 
 >>> @aio.testing.run_forever(sleep=1)
 ... def run_http_server():
-...     yield from runner(['run'], config_string=config)
+...     runner(['run'], config_string=config)
 ... 
 ...     def call_http_server():
 ...         result = yield from (
@@ -90,7 +90,7 @@ We need to decorate the protocol with aio.app.server.protocol
 
 >>> @aio.testing.run_forever(sleep=1)
 ... def run_http_server():
-...     yield from runner(['run'], config_string=config_with_protocol)
+...     runner(['run'], config_string=config_with_protocol)
 ... 
 ...     def call_http_server():
 ...         result = yield from (
