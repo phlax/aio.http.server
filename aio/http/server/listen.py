@@ -1,10 +1,12 @@
 import logging
 import asyncio
 
+import aio.app
 
-@asyncio.coroutine
-def sockets_emitted(signal, msg):
-    level, msg = msg
+
+@aio.app.signal.listener
+def sockets_emitted(signal):
+    level, msg = signal.data
     log = logging.getLogger('sockets')
     if hasattr(log, level):
         getattr(log, level)(msg)
